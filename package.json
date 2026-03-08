@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@ai-sdk/anthropic": "latest",
-    "@vercel/kv": "latest",
+    "@upstash/redis": "^1.36.3",
     "ai": "latest",
     "next": "latest",
     "react": "latest",

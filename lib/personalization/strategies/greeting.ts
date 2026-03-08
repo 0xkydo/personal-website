@@ -1,6 +1,8 @@
 import { streamText } from "ai";
 import { anthropic } from "@ai-sdk/anthropic";
-import { kv } from "@vercel/kv";
+import { Redis } from "@upstash/redis";
+
+const redis = Redis.fromEnv();
 import { VisitorContext, PersonalizationStrategy } from "../types";
 
 const CACHE_TTL_SECONDS = 3600; // 1 hour
@@ -31,7 +33,7 @@ function cacheKey(country: string): string {
 
 async function getCachedGreeting(country: string): Promise<string | null> {
   try {
-    return await kv.get<string>(cacheKey(country));
+    return await redis.get<string>(cacheKey(country));
   } catch {
     return null;
   }
@@ -39,7 +41,7 @@ async function getCachedGreeting(country: string): Promise<string | null> {
 
 async function cacheGreeting(country: string, greeting: string): Promise<void> {
   try {
-    await kv.set(cacheKey(country), greeting, { ex: CACHE_TTL_SECONDS });
+    await redis.set(cacheKey(country), greeting, { ex: CACHE_TTL_SECONDS });
   } catch {
     // Cache write failure is non-critical
   }
