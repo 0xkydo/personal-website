@@ -2,7 +2,10 @@ import { streamText } from "ai";
 import { anthropic } from "@ai-sdk/anthropic";
 import { Redis } from "@upstash/redis";
 
-const redis = Redis.fromEnv();
+const redis = new Redis({
+  url: process.env.KV_REST_API_URL!,
+  token: process.env.KV_REST_API_TOKEN!,
+});
 import { VisitorContext, PersonalizationStrategy } from "../types";
 
 const CACHE_TTL_SECONDS = 3600; // 1 hour
