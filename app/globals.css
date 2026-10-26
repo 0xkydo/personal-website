@@ -1,17 +1,23 @@
 :root {
-  --bg: #fafafa;
-  --fg: #1a1a1a;
-  --fg-muted: #666;
-  --border: #e0e0e0;
-  --font-mono: "JetBrains Mono", monospace;
+  --bg: #ffffff;
+  --fg: #3f3f46;
+  --fg-strong: #09090b;
+  --fg-muted: #8a8a93;
+  --border: #ececee;
+  --link-underline: rgba(9, 9, 11, 0.25);
+  --selection: rgba(9, 9, 11, 0.1);
+  --font-sans: "Inter", ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #0a0a0a;
-    --fg: #e0e0e0;
-    --fg-muted: #888;
-    --border: #2a2a2a;
+    --bg: #0b0b0c;
+    --fg: #b4b4bb;
+    --fg-strong: #f4f4f5;
+    --fg-muted: #6e6e76;
+    --border: #1f1f22;
+    --link-underline: rgba(244, 244, 245, 0.3);
+    --selection: rgba(244, 244, 245, 0.18);
   }
 }
 
@@ -25,136 +31,216 @@ html,
 body {
   background: var(--bg);
   color: var(--fg);
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-size: 16px;
-  line-height: 1.6;
+  line-height: 1.65;
+  letter-spacing: -0.011em;
+  font-feature-settings: "cv11", "ss03";
+  text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-main {
-  max-width: 640px;
+.page {
+  max-width: 608px;
   margin: 0 auto;
-  padding: 4rem 1.5rem;
+  padding: 7rem 1.5rem 3rem;
 }
 
-/* Greeting */
-.greeting {
-  font-size: 1.25rem;
-  font-weight: 400;
-  margin-bottom: 2rem;
-  min-height: 1.6em;
+/* Header */
+.page-title {
+  font-size: 2.25rem;
+  font-weight: 650;
+  line-height: 1.1;
+  letter-spacing: -0.035em;
+  color: var(--fg-strong);
 }
 
-/* Sections */
-.section {
-  margin-bottom: 2.5rem;
+.socials {
+  display: flex;
+  gap: 0.75rem;
 }
 
-.section-title {
-  font-size: 0.75rem;
+.socials a {
+  display: inline-flex;
+  color: var(--fg-muted);
+  transition: color 0.15s;
+}
+
+.socials a:hover {
+  color: var(--fg-strong);
+}
+
+/* Body */
+section {
+  margin-top: 2.5rem;
+}
+
+.page-header + section {
+  margin-top: 1.75rem;
+}
+
+section > * + * {
+  margin-top: 0.875rem;
+}
+
+h2 {
+  font-size: 0.8125rem;
   font-weight: 600;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
   color: var(--fg-muted);
-  margin-bottom: 0.75rem;
+  line-height: 1.4;
 }
 
-/* Bio */
-.bio p {
-  margin-bottom: 1rem;
+h2 + * {
+  margin-top: 0.75rem !important;
 }
 
-.bio p:last-child {
-  margin-bottom: 0;
+strong {
+  font-weight: 600;
+  color: var(--fg-strong);
 }
 
-/* Content lists */
-.content-list {
+section ul {
   list-style: none;
-  padding: 0;
 }
 
-.content-list li {
-  padding: 0.35rem 0;
-  border-bottom: 1px solid var(--border);
+section li {
+  position: relative;
+  padding-left: 1.125rem;
 }
 
-.content-list li:last-child {
-  border-bottom: none;
+section li::before {
+  content: "";
+  position: absolute;
+  left: 0.125rem;
+  top: 0.82em;
+  width: 6px;
+  height: 1px;
+  background: var(--fg-muted);
 }
 
-.content-list a {
-  color: var(--fg);
-  text-decoration: none;
-  display: block;
+section li + li {
+  margin-top: 0.625rem;
 }
 
-.content-list a:hover {
+a {
+  color: var(--fg-strong);
   text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-decoration-color: var(--link-underline);
+  text-underline-offset: 0.2em;
+  transition: text-decoration-color 0.15s, color 0.15s;
 }
 
-.content-list span.meta {
-  color: var(--fg-muted);
-  font-size: 0.8rem;
+a:hover {
+  text-decoration-color: currentColor;
 }
 
-.item-title {
-  display: block;
+a:focus-visible {
+  outline: 2px solid var(--fg-strong);
+  outline-offset: 2px;
+  border-radius: 2px;
 }
 
-/* Cursor */
-.cursor {
+::selection {
+  background: var(--selection);
+}
+
+/* Rolling numbers (odometer) */
+.roll {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.roll-digit {
+  --cell: 1.65em;
   display: inline-block;
-  width: 0.6em;
-  height: 1.1em;
-  background: var(--fg);
-  vertical-align: text-bottom;
-  animation: blink 1s step-end infinite;
-  margin-left: 2px;
+  height: var(--cell);
+  line-height: var(--cell);
+  overflow: hidden;
+  vertical-align: top;
 }
 
-@keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
+.roll-strip {
+  display: block;
+  transform: translateY(calc(var(--target) * -1 * var(--cell)));
+  transition: transform 1.4s cubic-bezier(0.16, 1, 0.3, 1) var(--settle-delay);
 }
 
-/* Typewriter sections hidden before reveal */
-.typewriter-container [data-section] {
-  visibility: hidden;
+.roll-strip > span {
+  display: block;
+  height: var(--cell);
 }
 
-.typewriter-container.revealed [data-section] {
-  visibility: visible !important;
-  clip-path: none !important;
+.roll.is-spinning .roll-digit {
+  opacity: 0.35;
+}
+
+.roll .roll-digit {
+  transition: opacity 0.4s ease var(--settle-delay);
+}
+
+.roll.is-spinning .roll-strip {
+  transition: none;
+  animation: roll-spin var(--spin-speed) linear infinite;
+}
+
+@keyframes roll-spin {
+  from { transform: translateY(0); }
+  to { transform: translateY(calc(-10 * var(--cell))); }
+}
+
+@keyframes roll-pulse {
+  50% { opacity: 0.15; }
+}
+
+/* Reduce Motion: no spinning or rolling. Digits pulse softly, then fade in. */
+@media (prefers-reduced-motion: reduce) {
+  .roll.is-spinning .roll-strip {
+    animation: none;
+  }
+  .roll.is-spinning .roll-digit {
+    animation: roll-pulse 1.2s ease-in-out infinite;
+  }
+  .roll-strip {
+    transition: none;
+  }
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 /* Footer */
 .footer {
-  margin-top: 4rem;
-  padding-top: 1.5rem;
+  margin-top: 2rem;
+  padding-top: 1rem;
   border-top: 1px solid var(--border);
   color: var(--fg-muted);
-  font-size: 0.75rem;
+  font-size: 0.8125rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
 }
 
 /* Responsive */
-@media (max-width: 480px) {
-  html, body {
-    font-size: 14px;
+@media (max-width: 600px) {
+  .page {
+    padding: 3.5rem 1.25rem 3rem;
   }
 
-  main {
-    padding: 2rem 1rem;
+  .page-title {
+    font-size: 1.875rem;
   }
-
-  .greeting {
-    font-size: 1.1rem;
-  }
-}
-
-/* Word break for long URLs/titles */
-.content-list a,
-.bio p {
-  word-break: break-word;
 }

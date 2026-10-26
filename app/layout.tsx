@@ -1,15 +1,15 @@
 import type { Metadata } from "next";
-import { JetBrains_Mono } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 
-const jetbrainsMono = JetBrains_Mono({
+const inter = Inter({
   subsets: ["latin"],
-  variable: "--font-mono",
+  variable: "--font-sans",
 });
 
 export const metadata: Metadata = {
   title: "Kydo",
-  description: "Storyteller, operator, and investor",
+  description: "Co-creator of Darkbloom - own and share local AI.",
   metadataBase: new URL("https://kydo.sh"),
 };
 
@@ -19,7 +19,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={jetbrainsMono.variable}>
+    <html lang="en" className={inter.variable}>
       <body>{children}</body>
     </html>
   );
