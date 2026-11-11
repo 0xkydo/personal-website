@@ -48,6 +48,7 @@ The home page needs no environment variables. `/api/greeting` does, and it fails
 ## Conventions
 
 - Keep new list copy in `content/`, then render it from `app/page.tsx`.
+- Build-in-public projects live in the Past work list, not a separate section. Title and one-liner share one line. Previews are committed files in `public/projects/`, lazy-loaded. No iframes, stage badges, or status labels. If a project has no public URL, do not invent one.
 - Style with the existing CSS variables in `app/globals.css`. No Tailwind, CSS modules, or component libraries.
 - External links use `target="_blank"` and `rel="noopener noreferrer"`.
 - User-facing copy is ASCII. No em dashes. The page already uses a spaced hyphen when it needs a break ("Darkbloom - own and share local AI.").

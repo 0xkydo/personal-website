@@ -1,22 +1,26 @@
 import { describe, it, expect } from "vitest";
+import fs from "fs";
+import path from "path";
 import { projects } from "@/content/projects";
 
-const stages = ["Shape", "Build", "Launch", "Iterate"];
-
 describe("projects", () => {
-  it("lists public and unreleased build-in-public work", () => {
-    expect(projects.map((project) => [project.name, project.stage, project.url])).toEqual([
-      ["Open Model License Dashboard", "Iterate", "https://license.kydo.sh/"],
-      ["GPU Flow", "Build", undefined],
+  it("lists the build-in-public entries without inventing a url", () => {
+    expect(projects.map((project) => [project.name, project.url])).toEqual([
+      ["Open Model License Dashboard", "https://license.kydo.sh/"],
+      ["GPU Flow", undefined],
     ]);
   });
 
-  it("keeps every entry on a known stage with a one-liner", () => {
+  it("points each preview at a committed image", () => {
     for (const project of projects) {
-      expect(stages).toContain(project.stage);
       expect(project.oneLiner.trim().length).toBeGreaterThan(0);
+      expect(project.previewAlt.trim().length).toBeGreaterThan(0);
+      expect(project.preview.startsWith("/projects/")).toBe(true);
       expect(project.name.includes("—")).toBe(false);
       expect(project.oneLiner.includes("—")).toBe(false);
+      expect(project.previewAlt.includes("—")).toBe(false);
+      const file = path.join(process.cwd(), "public", project.preview);
+      expect(fs.existsSync(file)).toBe(true);
     }
   });
 });

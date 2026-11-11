@@ -27,9 +27,9 @@ Copy that changes often lives in typed modules under `content/`. The home page r
 
 - `content/bio.ts` for the "last updated" date in the footer
 - `content/links.ts` for the social links
-- `content/projects.ts` for the projects section
+- `content/projects.ts` for the build-in-public projects, rendered in the Past work list
 
-Each project has a `name`, `oneLiner`, and `stage` (`Shape`, `Build`, `Launch`, or `Iterate`). `url`, `lastShipped`, and `repo` are optional. Leave `url` off when there is no public page. The home page then shows the name as plain text and adds "Coming soon".
+Each project has a `name`, `oneLiner`, and a committed preview image (`preview`, `previewAlt`). `url`, `lastShipped`, and `repo` are optional. The name and one-liner share one line, in the same shape as the other past-work items. The preview is a static image (`loading="lazy"`), not an iframe. When `url` is set, the name and the preview link to it. Leave `url` off when there is no public page, and point `preview` at a placeholder image instead of inventing a link.
 
 `content/articles.ts` and `content/affiliations.ts` are typed data and are not shown on the page yet.
 

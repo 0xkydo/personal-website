@@ -5,36 +5,42 @@ import { Project } from "@/content/types";
 import SocialIcon from "@/components/SocialIcon";
 import NetworkStats from "@/components/NetworkStats";
 
-function ExternalLink({ href, children }: { href: string; children: React.ReactNode }) {
+function ExternalLink({
+  href,
+  className,
+  children,
+}: {
+  href: string;
+  className?: string;
+  children: React.ReactNode;
+}) {
   return (
-    <a href={href} target="_blank" rel="noopener noreferrer">
+    <a href={href} className={className} target="_blank" rel="noopener noreferrer">
       {children}
     </a>
   );
 }
 
-function ProjectMeta({ project }: { project: Project }) {
-  const bits: React.ReactNode[] = [];
-  if (!project.url) bits.push("Coming soon");
-  if (project.repo) {
-    bits.push(
-      <ExternalLink key="repo" href={project.repo}>
-        Repo
-      </ExternalLink>
-    );
+function ProjectPreview({ project }: { project: Project }) {
+  const image = (
+    <img
+      src={project.preview}
+      alt={project.previewAlt}
+      width={1120}
+      height={473}
+      loading="lazy"
+      decoding="async"
+    />
+  );
+
+  if (!project.url) {
+    return <span className="project-shot">{image}</span>;
   }
-  if (project.lastShipped) bits.push(`Last shipped ${project.lastShipped}`);
-  if (bits.length === 0) return null;
 
   return (
-    <p className="project-meta">
-      {bits.map((bit, index) => (
-        <span key={index}>
-          {index > 0 ? " · " : null}
-          {bit}
-        </span>
-      ))}
-    </p>
+    <ExternalLink href={project.url} className="project-shot">
+      {image}
+    </ExternalLink>
   );
 }
 
@@ -60,31 +66,22 @@ export default function Home() {
         </p>
       </section>
 
-      <section id="projects">
-        <h2>Projects</h2>
-        <ul className="projects">
-          {projects.map((project) => (
-            <li key={project.name}>
-              <p className="project-name">
-                {project.url ? (
-                  <ExternalLink href={project.url}>
-                    <strong>{project.name}</strong>
-                  </ExternalLink>
-                ) : (
-                  <strong>{project.name}</strong>
-                )}
-                <span className="stage-badge">{project.stage}</span>
-              </p>
-              <p className="project-line">{project.oneLiner}</p>
-              <ProjectMeta project={project} />
-            </li>
-          ))}
-        </ul>
-      </section>
-
       <section>
         <h2>Past work</h2>
         <ul>
+          {projects.map((project) => (
+            <li key={project.name} className="with-preview">
+              {project.url ? (
+                <ExternalLink href={project.url}>
+                  <strong>{project.name}</strong>
+                </ExternalLink>
+              ) : (
+                <strong>{project.name}</strong>
+              )}
+              : {project.oneLiner}
+              <ProjectPreview project={project} />
+            </li>
+          ))}
           <li>
             <strong>Commit Boost</strong>: started the HFT Ethereum validator sidecar, now used
             by <strong>50% of validators ($50B+)</strong>.

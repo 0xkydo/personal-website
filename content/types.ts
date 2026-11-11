@@ -19,13 +19,12 @@ export interface SocialLink {
   url: string;
 }
 
-export type ProjectStage = "Shape" | "Build" | "Launch" | "Iterate";
-
 export interface Project {
   name: string;
   oneLiner: string;
   url?: string;
-  stage: ProjectStage;
+  preview: string;
+  previewAlt: string;
   lastShipped?: string;
   repo?: string;
 }
