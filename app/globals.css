@@ -125,6 +125,29 @@ section li + li {
   margin-top: 0.625rem;
 }
 
+/* Static previews. No motion, so reduced motion has nothing to disable. */
+li.with-preview + li {
+  margin-top: 1.15rem;
+}
+
+.project-shot {
+  display: block;
+  margin-top: 0.45rem;
+  border: 1px solid var(--border);
+  line-height: 0;
+  text-decoration: none;
+}
+
+.project-shot img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+a.project-shot:hover {
+  text-decoration: none;
+}
+
 a {
   color: var(--fg-strong);
   text-decoration: underline;

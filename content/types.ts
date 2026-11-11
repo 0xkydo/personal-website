@@ -18,3 +18,13 @@ export interface SocialLink {
   label: string;
   url: string;
 }
+
+export interface Project {
+  name: string;
+  oneLiner: string;
+  url?: string;
+  preview: string;
+  previewAlt: string;
+  lastShipped?: string;
+  repo?: string;
+}
