@@ -1,5 +1,7 @@
 import { lastUpdated } from "@/content/bio";
 import { socials } from "@/content/links";
+import { projects } from "@/content/projects";
+import { Project } from "@/content/types";
 import SocialIcon from "@/components/SocialIcon";
 import NetworkStats from "@/components/NetworkStats";
 
@@ -8,6 +10,31 @@ function ExternalLink({ href, children }: { href: string; children: React.ReactN
     <a href={href} target="_blank" rel="noopener noreferrer">
       {children}
     </a>
+  );
+}
+
+function ProjectMeta({ project }: { project: Project }) {
+  const bits: React.ReactNode[] = [];
+  if (!project.url) bits.push("Coming soon");
+  if (project.repo) {
+    bits.push(
+      <ExternalLink key="repo" href={project.repo}>
+        Repo
+      </ExternalLink>
+    );
+  }
+  if (project.lastShipped) bits.push(`Last shipped ${project.lastShipped}`);
+  if (bits.length === 0) return null;
+
+  return (
+    <p className="project-meta">
+      {bits.map((bit, index) => (
+        <span key={index}>
+          {index > 0 ? " · " : null}
+          {bit}
+        </span>
+      ))}
+    </p>
   );
 }
 
@@ -31,6 +58,28 @@ export default function Home() {
           <ExternalLink href="https://eigenlabs.org/">Eigen Labs</ExternalLink>, leading product
           strategy and partnerships. Backed by a16z and others; <strong>$200M+ raised</strong>.
         </p>
+      </section>
+
+      <section id="projects">
+        <h2>Projects</h2>
+        <ul className="projects">
+          {projects.map((project) => (
+            <li key={project.name}>
+              <p className="project-name">
+                {project.url ? (
+                  <ExternalLink href={project.url}>
+                    <strong>{project.name}</strong>
+                  </ExternalLink>
+                ) : (
+                  <strong>{project.name}</strong>
+                )}
+                <span className="stage-badge">{project.stage}</span>
+              </p>
+              <p className="project-line">{project.oneLiner}</p>
+              <ProjectMeta project={project} />
+            </li>
+          ))}
+        </ul>
       </section>
 
       <section>

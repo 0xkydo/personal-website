@@ -125,6 +125,37 @@ section li + li {
   margin-top: 0.625rem;
 }
 
+/* Projects. Static type only, so reduced motion has nothing to disable here. */
+.project-name {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  column-gap: 0.5rem;
+  row-gap: 0.15rem;
+}
+
+.stage-badge {
+  display: inline-block;
+  padding: 0.05em 0.45em 0.08em;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  line-height: 1.45;
+}
+
+.projects .project-line,
+.projects .project-meta {
+  margin-top: 0.15rem;
+}
+
+.project-meta {
+  color: var(--fg-muted);
+}
+
 a {
   color: var(--fg-strong);
   text-decoration: underline;
